@@ -6,7 +6,7 @@
 replicaCount: 1
 
 image:
-  repository: ubuntu
+  repository: nginx
   pullPolicy: IfNotPresent
   tag: ""
 imagePullSecrets: []
