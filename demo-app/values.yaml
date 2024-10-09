@@ -6,7 +6,7 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: bitnami/jmx-exporter
   pullPolicy: IfNotPresent
   tag: ""
 imagePullSecrets: []
