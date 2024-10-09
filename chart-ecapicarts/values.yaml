@@ -1,0 +1,31 @@
+#General
+
+namespace: helm-nonprod
+repo: https://hub.docker.com/arprasan
+env: non-prod
+appname: ecapi-carts
+image:
+  repo: https://hub.docker.com/arprasan/prasanth_alpine_git
+  tag: 'latest'
+replicaCount: 2
+server:
+  port: '8081'
+
+#Health check probes
+health:
+  port: 8081
+  probe:
+    liveness:
+      path: /liveness
+      initialDelay: 70
+      period: 5
+    readiness:
+      path: /readiness
+      initialDelay: 30
+      period: 5
+
+jmx:
+  image:
+    repository: bitnami/jmx-exporter
+    tag: 'latest'
+    pullPolicy: IfNotPresent

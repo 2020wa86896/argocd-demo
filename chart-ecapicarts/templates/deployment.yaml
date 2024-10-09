@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appname }}
+  env: {{ .Values.env }}
+spec:
+  selector:
+    matchLabels:
+      application: {{ .Values.appname }}
+      env: {{ .Values.env }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        application: {{ .Values.appname }}
+        env: {{ .Values.env }}
+    spec:
+      containers:
+        - name: {{ .Values.appname }}
+          image: {{ .Values.image.repo }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.server.port }}
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.health.probe.readiness.path }}
+              port: {{ .Values.health.port }}
+            initialDelaySeconds: {{ .Values.health.probe.readiness.initialDelay }}
+            periodSeconds: {{ .Values.health.probe.readiness.period }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.health.probe.liveness.path }}
+              port: {{ .Values.health.port }}
+            initialDelaySeconds: {{ .Values.health.probe.liveness.initialDelay }}
+            periodSeconds: {{ .Values.health.probe.liveness.period }} 
